@@ -11,10 +11,10 @@
 
   <p:option name="file" required="true"/>
 
-  <p:import href="mathtype2mml-declaration.xpl"/>
+  <p:import href="mathtype2mml-declaration-internal.xpl"/>
 
-  <tr:mathtype2mml name="mathtype2mml">
+  <tr:mathtype2mml-internal name="mathtype2mml">
     <p:with-option name="href" select="$file"/>
-  </tr:mathtype2mml>
+  </tr:mathtype2mml-internal>
 
 </p:declare-step>

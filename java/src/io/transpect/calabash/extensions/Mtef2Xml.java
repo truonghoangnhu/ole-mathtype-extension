@@ -1,11 +1,7 @@
 package io.transpect.calabash.extensions;
 
 import java.io.StringReader;
-import java.io.IOException;
-
 import javax.xml.transform.stream.StreamSource;
-
-import org.jruby.embed.EvalFailedException;
 
 import com.xmlcalabash.core.XMLCalabash;
 import com.xmlcalabash.core.XProcConstants;
@@ -14,23 +10,17 @@ import com.xmlcalabash.io.WritablePipe;
 import com.xmlcalabash.library.DefaultStep;
 import com.xmlcalabash.runtime.XAtomicStep;
 import com.xmlcalabash.util.TreeWriter;
-import net.sf.saxon.om.AttributeMap;
-import net.sf.saxon.om.EmptyAttributeMap;
-import net.sf.saxon.om.SingletonAttributeMap;
-import com.xmlcalabash.util.TypeUtils;
 
 import net.sf.saxon.s9api.DocumentBuilder;
 import net.sf.saxon.s9api.Processor;
-import net.sf.saxon.s9api.Serializer;
 import net.sf.saxon.s9api.QName;
 import net.sf.saxon.s9api.SaxonApiException;
 import net.sf.saxon.s9api.XdmNode;
-import net.sf.saxon.om.*;
 
 
 @XMLCalabash(
-        name = "tr:ole2xml",
-        type = "{http://example.org/xmlcalabash/steps}ole2xml")
+        name = "tr:mtef2xml",
+        type = "{http://transpect.io}mtef2xml")
 
 public class Mtef2Xml extends DefaultStep {
     private WritablePipe result = null;
@@ -52,12 +42,14 @@ public class Mtef2Xml extends DefaultStep {
     private XdmNode createXMLError(String message, String file, XProcRuntime runtime){
         TreeWriter tree = new TreeWriter(runtime);
         tree.startDocument(step.getNode().getBaseURI());
-        AttributeMap attrs = EmptyAttributeMap.getInstance();
-        attrs = attrs.put(TypeUtils.attributeInfo(new QName("code"), "formula-error"));
-        attrs = attrs.put(TypeUtils.attributeInfo(new QName("href"), file));
-        tree.addStartElement(XProcConstants.c_errors, attrs);
+        tree.addStartElement(XProcConstants.c_errors);
+        tree.addAttribute(new QName("code"), "formula-error");
+        tree.addAttribute(new QName("href"), file);
         
-        tree.addStartElement(XProcConstants.c_error,SingletonAttributeMap.of(TypeUtils.attributeInfo(new QName("code"), "error")));
+        tree.startContent();
+        tree.addStartElement(XProcConstants.c_error);
+        tree.addAttribute(new QName("code"), "error");
+        tree.startContent();
         tree.addText(message);
         tree.addEndElement();
         tree.addEndElement();

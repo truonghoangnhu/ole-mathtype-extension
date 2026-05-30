@@ -1,8 +1,5 @@
 package io.transpect.calabash.extensions;
 
-import java.io.FileWriter;
-import java.io.IOException;  
-
 import org.jruby.embed.ScriptingContainer;
 import org.jruby.embed.LocalVariableBehavior;
 
